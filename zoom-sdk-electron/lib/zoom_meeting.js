@@ -44,7 +44,15 @@ var ZoomMeetingFailCode = {
 	MEETING_FAIL_ENFORCE_LOGIN		: 23,
 	MEETING_FAIL_WRITE_CONFIG_FILE			: 50,	///< Failed to write configure file
 }; 
+
+var ZoomMeetingUIViewType = {
+	MEETINGUI_FIRST_MONITOR:0,
+	MEETINGUI_SECOND_MONITOR:1,
+};
+
 var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
+var ZoomMeetingUIMOD = require('./zoom_meeting_ui_ctrl.js')
+var ZoomAnnotationMOD = require('./zoom_annotation_ctrl.js')
 
 var ZoomMeeting = (function () {
   var instance;
@@ -63,11 +71,19 @@ var ZoomMeeting = (function () {
     // Private methods and variables
     var _addon = clientOpts.addon || null
     var _meetingstatuscb = clientOpts.meetingstatuscb || null
+    var _isInmeeting = false
     if (_addon){
         _addon.SetMeetingStatusCB(onMeetingStatus)
     }
 
     function onMeetingStatus(status, errorcode) {
+        if (ZoomMeetingStatus.MEETING_STATUS_INMEETING == status
+        || ZoomMeetingStatus.MEETING_STATUS_LOCKED == status
+        || ZoomMeetingStatus.MEETING_STATUS_UNLOCKED == status){
+            _isInmeeting = true
+        } else {
+            _isInmeeting = false
+        }
         if (null != _meetingstatuscb)
             _meetingstatuscb(status, errorcode)
     }
@@ -124,6 +140,24 @@ var ZoomMeeting = (function () {
 
             return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
         },
+
+        GetMeetingUICtrl: function(opts)
+        {
+            if (_addon && _isInmeeting){
+                var clientOpts = opts || {}
+                clientOpts.addon = _addon
+                return ZoomMeetingUIMOD.ZoomMeetingUICtrl.getInstance(clientOpts)
+            }
+        },
+        
+        GetAnnotationCtrl: function(opts)
+        {
+            if (_addon && _isInmeeting){
+                var clientOpts = opts || {}
+                clientOpts.addon = _addon
+                return ZoomAnnotationMOD.ZoomAnnotationCtrl.getInstance(clientOpts)
+            }
+        }
     };
  
   };
@@ -149,5 +183,7 @@ var ZoomMeeting = (function () {
 module.exports = {
     ZoomMeetingStatus: ZoomMeetingStatus,
     ZoomMeetingFailCode: ZoomMeetingFailCode,
+    ZoomAnnotationMOD: ZoomAnnotationMOD,
+    ZoomMeetingUIViewType: ZoomMeetingUIViewType,
     ZoomMeeting: ZoomMeeting,
 }
