@@ -26,5 +26,5 @@ Run “cmd” as admin, cd to zoom_electron/demo
 
 Run npm set npm_config_arch is32
 
-Run "electron ."
+Run Electron - on windows, its "./node_modules/.bin/electron"
       
