@@ -1,5 +1,36 @@
 # CHANGELOG
 
+## 2017-07-20
+
+### Added
+
+1. zoom_meeting_configuration.js
+        MeetingConfig_SetBottomFloatToolbarWndVisibility
+
+2. zoom_meeting_audio.js
+        MeetingAudio_MuteAudio
+        MeetingAudio_UnMuteAudio
+        MeetingAudio_JoinVoip
+        MeetingAudio_LeaveVoip
+        and audio status callback
+        var _audiostatuscb = clientOpts.audiostatuscb
+
+3. zoom_meeting_video.js
+        MeetingVideo_MuteVideo
+        MeetingVideo_UnMuteVideo
+        and video status change callback
+        var _videostatuscb = clientOpts.videostatuscb || null
+
+4. zoom_meeting.js
+        meeting status, user join/leave, host change callback
+
+        var _meetingstatuscb = clientOpts.meetingstatuscb || null
+        var _meetinguserjoincb = clientOpts.meetinguserjoincb || null
+        var _meetinguserleftcb = clientOpts.meetinguserleftcb || null
+        var _meetinghostchangecb = clientOpts.meetinghostchangecb || null
+
+5. supporte join meeting without login, also user join meeting api
+
 ## 2017-06-29
 
 ### Added
