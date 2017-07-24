@@ -53,6 +53,10 @@ var ZoomMeetingUIViewType = {
 var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
 var ZoomMeetingUIMOD = require('./zoom_meeting_ui_ctrl.js')
 var ZoomAnnotationMOD = require('./zoom_annotation_ctrl.js')
+var ZoomMeetingConfigurationMOD = require('./zoom_meeting_configuration.js')
+var ZoomMeetingAudioMOD = require('./zoom_meeting_audio.js')
+var ZoomMeetingVideoMOD = require('./zoom_meeting_video.js')
+var ZoomMeetingShareMOD = require('./zoom_meeting_share.js')
 
 var ZoomMeeting = (function () {
   var instance;
@@ -71,9 +75,39 @@ var ZoomMeeting = (function () {
     // Private methods and variables
     var _addon = clientOpts.addon || null
     var _meetingstatuscb = clientOpts.meetingstatuscb || null
+    var _meetinguserjoincb = clientOpts.meetinguserjoincb || null
+    var _meetinguserleftcb = clientOpts.meetinguserleftcb || null
+    var _meetinghostchangecb = clientOpts.meetinghostchangecb || null
     var _isInmeeting = false
+    var _lasthostid = 0
     if (_addon){
         _addon.SetMeetingStatusCB(onMeetingStatus)
+        _addon.SetMeetingUserJoinCB(onUserJoin)
+        _addon.SetMeetingUserLeftCB(onUserLeft)
+        _addon.SetMeetingHostChangeCB(onHostChange)
+    }
+
+    var userlist = new Map();
+
+    function UpdateHostId(newid, oldid) {
+        var newhost = userlist.get(newid)
+        if (newhost === undefined)
+            return
+        newhost.ishost = 'true'
+
+        _lasthostid = newid
+
+        var oldhost = userlist.get(oldid)
+        if (oldhost === undefined)
+            return
+        oldhost.ishost = 'false'
+    }
+    function onHostChange(userid) {
+        if (_lasthostid == userid)
+            return
+        UpdateHostId(userid, _lasthostid)
+        if (_meetinghostchangecb)
+            _meetinghostchangecb(userid)
     }
 
     function onMeetingStatus(status, errorcode) {
@@ -83,9 +117,40 @@ var ZoomMeeting = (function () {
             _isInmeeting = true
         } else {
             _isInmeeting = false
+            userlist.clear()
         }
         if (null != _meetingstatuscb)
             _meetingstatuscb(status, errorcode)
+    }
+
+    function onUserJoin(userinfolist) {
+        var userarray = JSON.parse(userinfolist);
+        userarray.userlist.forEach(function (item, index) {
+            var useritem = new Object();
+            useritem.userid = parseInt(item.userid, 10)
+            useritem.username = item.username
+            useritem.isme = item.isme
+            useritem.ishost = item.ishost
+            if (useritem.ishost === 'true')
+                _lasthostid = useritem.userid
+            useritem.audiostatus = ZoomMeetingAudioMOD.ZoomMeetingAudioStatus.Audio_None
+            useritem.videostatus = ZoomMeetingVideoMOD.ZoomMeetingVideoStatus.Video_OFF
+            userlist.set(useritem.userid, useritem)
+             if (null != _meetinguserjoincb){
+                _meetinguserjoincb(useritem)
+        }
+        });
+    }
+
+    function onUserLeft(userinfolist, nouse) {
+        var userarray = JSON.parse(userinfolist);
+        userarray.userlist.forEach(function (item, index) {
+            var userid = parseInt(item.userid, 10)
+            userlist.delete(userid)
+            if (null != _meetinguserleftcb){
+                _meetinguserleftcb(userid)
+            }
+        });
     }
 
     return {
@@ -141,25 +206,83 @@ var ZoomMeeting = (function () {
             return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
         },
 
-        GetMeetingUICtrl: function(opts)
-        {
-            if (_addon && _isInmeeting){
+        GetUserList :function () {
+            return userlist
+        },
+
+        GetMeetingUICtrl: function(opts) {
+            if (_addon){
                 var clientOpts = opts || {}
                 clientOpts.addon = _addon
+                clientOpts.zoommeeting = instance
                 return ZoomMeetingUIMOD.ZoomMeetingUICtrl.getInstance(clientOpts)
             }
         },
         
-        GetAnnotationCtrl: function(opts)
-        {
-            if (_addon && _isInmeeting){
+        GetAnnotationCtrl: function(opts) {
+            if (_addon){
                 var clientOpts = opts || {}
                 clientOpts.addon = _addon
+                clientOpts.zoommeeting = instance
                 return ZoomAnnotationMOD.ZoomAnnotationCtrl.getInstance(clientOpts)
             }
-        }
+        },
+
+        GetMeetingConfiguration : function(opts) {
+            if (_addon){
+                var clientOpts = opts || {}
+                clientOpts.addon = _addon
+                clientOpts.zoommeeting = instance
+                return ZoomMeetingConfigurationMOD.ZoomMeetingConfiguration.getInstance(clientOpts)
+            }
+        },
+
+        GetMeetingAudio : function(opts) {
+           if (_addon){
+                var clientOpts = opts || {}
+                clientOpts.addon = _addon
+                clientOpts.zoommeeting = instance
+                return ZoomMeetingAudioMOD.ZoomMeetingAudio.getInstance(clientOpts)
+            } 
+        },
+
+        GetMeetingVideo : function(opts) {
+           if (_addon){
+                var clientOpts = opts || {}
+                clientOpts.addon = _addon
+                clientOpts.zoommeeting = instance
+                return ZoomMeetingVideoMOD.ZoomMeetingVideo.getInstance(clientOpts)
+            } 
+        },
+
+        GetMeetingShare : function(opts) {
+           if (_addon){
+                var clientOpts = opts || {}
+                clientOpts.addon = _addon
+                clientOpts.zoommeeting = instance
+                return ZoomMeetingShareMOD.ZoomMeetingShare.getInstance(clientOpts)
+            } 
+        },
+
+         //internal interface
+        UpdateAudioStatus: function (userid, status) {
+            var useritem = userlist.get(userid)
+            if (useritem === undefined)
+                return
+            
+            useritem.audiostatus = status
+            userlist.set(userid, useritem)
+        },
+
+        UpdateVideoStatus : function(userid, status) {
+            var useritem = userlist.get(userid)
+            if (useritem === undefined)
+                return
+            
+            useritem.videostatus = status
+            userlist.set(userid, useritem)
+        },
     };
- 
   };
  
   return {

@@ -13,6 +13,10 @@ var initoptions={
 const zoomsdk = ZOOMSDKMOD.ZoomSDK.getInstance(initoptions)
 var zoomauth = null
 var zoommeeting = null
+var zoomaudio = null
+var zoomvideo = null
+var zoomshare = null
+var mymeetinguserid = 0
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
@@ -165,9 +169,25 @@ function apicallresultcb(apiname, ret){
 function sdkauthCB(status){
   if (ZOOMSDKMOD.ZOOMAUTHMOD.ZoomAuthResult.AUTHRET_SUCCESS == status){
     var opts = {
-      meetingstatuscb:meetingstatuscb
+      meetingstatuscb:meetingstatuscb,
+      meetinguserjoincb:meetinguserjoincb,
+      meetinguserleftcb:meetinguserleftcb,
+      meetinghostchangecb:meetinghostchangecb,
     }
     zoommeeting = zoomsdk.GetMeeting(opts)
+
+    var optsaudio = {
+      audiostatuscb:audiostatuscb,
+    }
+    zoomaudio = zoommeeting.GetMeetingAudio(optsaudio)
+
+    var optsvideo = {
+      videostatuscb:videostatuscb,
+    }
+    zoomvideo = zoommeeting.GetMeetingVideo(optsvideo)
+
+    zoomshare = zoommeeting.GetMeetingShare()
+
     showLoginWindow();
   }
   else {
@@ -202,6 +222,26 @@ function login(username, psw){
     showWaitingWindow();
   }
   zoomauth.Login(username, psw, false);
+}
+
+function audiostatuscb(userid, status){
+
+}
+
+function videostatuscb(userid, status){
+
+}
+function meetinguserjoincb(useritem) {
+  if (useritem.isme == 'true')
+    mymeetinguserid = useritem.userid
+}
+
+ function meetinguserleftcb(userid){
+
+ }
+
+function meetinghostchangecb(userid){
+
 }
 
 function meetingstatuscb(status, errorcode) {
@@ -255,6 +295,33 @@ function join(meetingnum, username){
 }
 
 function leave(endMeeting){
+    //zoomaudio.MeetingAudio_JoinVoip()
+    /*
+    var mute = {
+      userid:mymeetinguserid,
+      allowunmutebyself:true // only take affect when userid===0, host muteall
+    }
+    zoomaudio.MeetingAudio_MuteAudio(mute)
+    */
+    /*
+    var unmute = {
+      userid: mymeetinguserid,
+    }
+    zoomaudio.MeetingAudio_UnMuteAudio(unmute)
+    */
+    //zoomaudio.MeetingAudio_LeaveVoip()
+    //zoomvideo.MeetingVideo_MuteVideo()
+    //zoomvideo.MeetingVideo_UnMuteVideo()
+
+    //var userlist = zoommeeting.GetUserList()
+
+    /*
+    var shareapp = {
+      apphandle:134484 //app mainwindow handle.
+    }
+    zoomshare.MeetingShare_StartAppShare(shareapp)
+    */
+    //return
     var opt = {
       endMeeting:endMeeting
     }

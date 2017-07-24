@@ -145,7 +145,7 @@ var ZoomMeetingUICtrl = (function () {
         MeetingUI_ShowSharingToolbar : function (opts) {
             if (_addon){
                 var clientOpts = opts || {}
-                var show = clientOpts.show || true
+                var show = clientOpts.show
                 return _addon.MeetingUI_ShowSharingToolbar(show)
             }
 
@@ -183,7 +183,7 @@ var ZoomMeetingUICtrl = (function () {
         MeetingUI_ShowParticipantsListWnd: function(opts) {
             if (_addon){
                 var clientOpts = opts || {}
-                var show = clientOpts.show || true
+                var show = clientOpts.show
                 return _addon.MeetingUI_ShowParticipantsListWnd(show)
             }
 
@@ -199,7 +199,7 @@ var ZoomMeetingUICtrl = (function () {
         MeetingUI_ShowBottomFloatToolbarWnd: function(opts) {
             if (_addon){
                 var clientOpts = opts || {}
-                var show = clientOpts.show || true
+                var show = clientOpts.show
                 return _addon.MeetingUI_ShowBottomFloatToolbarWnd(show)
             }
 
