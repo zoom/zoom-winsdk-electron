@@ -159,6 +159,11 @@ var ZoomMeeting = (function () {
       /** Start meeting
         * @param {{
         *  meetingnum: Number, A number to the meeting to be started.
+        *  directshareappwndhandle: Number, Windows handle of which window you want to share directly
+        *  participantid: String, ID for meeting participant report list, need web backend enable.
+        *  isvideooff: boolean
+        *  isaudiooff: boolean
+        *  isdirectsharedesktop: boolean
         * }} opts
         * @return {ZoomSDKError}
         */
@@ -166,16 +171,58 @@ var ZoomMeeting = (function () {
             if (_addon){
                 var clientOpts = opts || {}
                 var meetingnum = clientOpts.meetingnum || 0
-                return _addon.StartMeeting(meetingnum)
+                var directshareappwndhandle = clientOpts.directshareappwndhandle || 0
+                var participantid = clientOpts.participantid || ''
+                var isvideooff = (clientOpts.isvideooff === undefined) ? false : clientOpts.isvideooff
+                var isaudiooff = (clientOpts.isaudiooff === undefined) ? false : clientOpts.isaudiooff
+                var isdirectsharedesktop = (clientOpts.isdirectsharedesktop === undefined) ? false : clientOpts.isdirectsharedesktop
+
+                return _addon.StartMeeting(meetingnum, directshareappwndhandle, participantid, isvideooff, isaudiooff, isdirectsharedesktop)
             }
 
             return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
         },
 
+        /** Start meeting without login
+        * @param {{
+        *  userid: String, user id. From Rest API
+        *  usertoken: String, user token. From Rest API
+        *  username: String
+        *  meetingnumber: Number, A number to the meeting to be started.
+        *  directshareappwndhandle: Number, Windows handle of which window you want to share directly
+        *  participantid: String, ID for meeting participant report list, need web backend enable.
+        *  isdirectsharedesktop: boolean
+        * }} opts
+        * @return {ZoomSDKError}
+        */
+       StartMeetingWithOutLogin: function (opts) {
+           if (_addon) {
+               var clientOpts = opts || {}
+               var userid = clientOpts.userid || ''
+               var usertoken = clientOpts.usertoken || ''
+               var username = clientOpts.username || ''
+               var meetingnumber = clientOpts.meetingnumber || 0
+               var directshareappwndhandle = clientOpts.directshareappwndhandle || 0
+               var participantid = clientOpts.participantid || ''
+               var isdirectsharedesktop = (clientOpts.isdirectsharedesktop === undefined) ? false : clientOpts.isdirectsharedesktop
+
+               return _addon.StartMeeting_APIUSER(userid, usertoken, username, meetingnumber, directshareappwndhandle, participantid, isdirectsharedesktop)
+           }
+
+           return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
+       },
+
       /** Join meeting
         * @param {{
-        *  meetingnum: Number, A number to the meeting to be started.
+        *  meetingnum: Number, A number to the meeting to be joined.
         *  username: String, 
+        *  psw: String, Meeting password
+        *  directshareappwndhandle: Number, Windows handle of which window you want to share directly
+        *  participantid: String, ID for meeting participant report list, need web backend enable.
+        *  webinartoken: String, webinar token
+        *  isvideooff: boolean
+        *  isaudiooff: boolean
+        *  isdirectsharedesktop: boolean
         * }} opts
         * @return {ZoomSDKError}
         */
@@ -184,7 +231,52 @@ var ZoomMeeting = (function () {
                 var clientOpts = opts || {}
                 var meetingnum = clientOpts.meetingnum || 0
                 var username = clientOpts.username || ''
-                return _addon.JoinMeeting(meetingnum, username)
+                var psw = clientOpts.psw || ''
+                var directshareappwndhandle = clientOpts.directshareappwndhandle || 0
+                var participantid = clientOpts.participantid || ''
+                var webinartoken = clientOpts.webinartoken || ''
+                var isvideooff = (clientOpts.isvideooff === undefined) ? false : clientOpts.isvideooff
+                var isaudiooff = (clientOpts.isaudiooff === undefined) ? false : clientOpts.isaudiooff
+                var isdirectsharedesktop = (clientOpts.isdirectsharedesktop === undefined) ? false : clientOpts.isdirectsharedesktop
+
+                return _addon.JoinMeeting(meetingnum, username, psw, directshareappwndhandle, 
+                    participantid, webinartoken, isvideooff, isaudiooff, isdirectsharedesktop)
+            }
+
+            return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
+        },
+
+        /** Join meeting withoutlogin
+        * @param {{
+        *  meetingnum: Number, A number to the meeting to be joined.
+        *  username: String, 
+        *  psw: String, Meeting password
+        *  directshareappwndhandle: Number, Windows handle of which window you want to share directly
+        *  toke4enfrocelogin: String, Token of the meeting only for login user
+        *  participantid: String, ID for meeting participant report list, need web backend enable.
+        *  webinartoken: String, webinar token
+        *  isdirectsharedesktop: boolean
+        *  isvideooff: boolean
+        *  isaudiooff: boolean
+        * }} opts
+        * @return {ZoomSDKError}
+        */
+        JoinMeetingWithoutLogin: function (opts) {
+            if (_addon) {
+                var clientOpts = opts || {}
+                var meetingnum = clientOpts.meetingnum || 0
+                var username = clientOpts.username || ''
+                var psw = clientOpts.psw || ''
+                var directshareappwndhandle = clientOpts.directshareappwndhandle || 0
+                var toke4enfrocelogin = clientOpts.toke4enfrocelogin || ''
+                var participantid = clientOpts.participantid || ''
+                var webinartoken = clientOpts.webinartoken || ''
+                var isdirectsharedesktop = (clientOpts.isdirectsharedesktop === undefined) ? false : clientOpts.isdirectsharedesktop
+                var isvideooff = (clientOpts.isvideooff === undefined) ? false : clientOpts.isvideooff
+                var isaudiooff = (clientOpts.isaudiooff === undefined) ? false : clientOpts.isaudiooff
+
+                return _addon.JoinMeeting_APIUSER(meetingnum, username, psw, directshareappwndhandle, toke4enfrocelogin, 
+                    participantid, webinartoken, isdirectsharedesktop, isvideooff, isaudiooff)
             }
 
             return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
