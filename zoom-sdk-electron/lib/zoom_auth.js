@@ -97,6 +97,18 @@ var ZoomAuth = (function () {
         },
 
      /**
+     * LoginWithSSOToken
+     * @param ssotoken: String
+     * @return {ZoomSDKError}
+     */
+        LoginWithSSOToken: function (ssotoken){
+            if (_isSDKAuthentication && _addon)
+                return _addon.LoginWithSSOToken(ssotoken)
+            
+            return _isSDKAuthentication ? ZOOMSDKMOD_4AUTH.ZoomSDKError.SDKERR_UNAUTHENTICATION : ZOOMSDKMOD_4AUTH.ZoomSDKError.SDKERR_UNINITIALIZE;
+        },
+
+     /**
      * Logout
      * @return {ZoomSDKError}
      */

@@ -1,4 +1,31 @@
 # CHANGELOG
+## 2017-11-01
+
+### Added
+
+1.API for audio/video device management
+
+a>zoom_sdk.js->GetSetting : function (opts)
+
+b>zoom_setting.js->GetAudioSetting : function (opts)
+
+GetVideoSetting : function (opts)
+
+c>zoom_setting_audio.js->
+
+Setting_SelectMic: function (opts)
+
+Setting_SelectSpeaker: function (opts)
+
+Setting_GetMicList: function ()
+
+Setting_GetSpeakerList: function ()
+
+d>zoom_setting_video.js->
+
+Setting_SelectCamera : function(opts)
+
+Setting_GetCameraList: function ()
 
 ## 2017-07-20
 

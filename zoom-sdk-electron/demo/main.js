@@ -222,6 +222,9 @@ function login(username, psw){
     showWaitingWindow();
   }
   zoomauth.Login(username, psw, false);
+  //sso login
+  //var ssotoken=""
+  //zoomauth.LoginWithSSOToken(ssotoken)
 }
 
 function audiostatuscb(userid, status){
@@ -352,12 +355,18 @@ ipcMain.on('asynchronous-message', (event, arg1, arg2, arg3) => {
 
 app.on('window-all-closed', function () {
   if (process.platform != 'darwin') {
-    zoomsdk.CleanupSDK();
+    zoomsdk.StopMonitorUIAction()
+    zoomsdk.CleanupSDK()
     if (0 == initoptions.threadsafemode){
       app.quit()
     }
   }
 });
+
+
+function uiacitoncb(type, msgid, hwnd){
+  
+  }
 
 app.on('ready', function () {
   var opts = {
@@ -365,6 +374,10 @@ app.on('ready', function () {
     langid:ZOOMSDKMOD.ZoomSDK_LANGUAGE_ID.LANGUAGE_English,
   }
   var ret = zoomsdk.InitSDK(opts);
+  var optMonitorUIAction={
+    uiacitonCB:uiacitoncb
+  }
+  zoomsdk.StartMonitorUIAction(optMonitorUIAction)
   if (0 == initoptions.threadsafemode && ZOOMSDKMOD.ZoomSDKError.SDKERR_SUCCESS == ret){
     ProcSDKReady()
   }

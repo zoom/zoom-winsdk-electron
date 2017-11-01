@@ -32,8 +32,20 @@ var ZoomSDKError = {
 	SDKERR_OTHER_SDK_INSTANCE_RUNNING:14,
 };
 
+var ZoomSDKUIHOOKHWNDTYPE = {
+	UIHOOKWNDTYPE_USERDEFIEND:0,
+	UIHOOKWNDTYPE_MAINWND:1,
+	UIHOOKWNDTYPE_BOTTOMTOOLBAR:2,
+};
+
+var ZoomSDKUIHOOKMSGID = {
+    WM_CREATE:0x0001,
+    WM_DESTROY:0x0002,
+};
+
 var ZOOMAUTHMOD = require('./zoom_auth.js')
 var ZOOMMEETINGMOD = require('./zoom_meeting.js')
+var ZOOMSETTINGMOD = require('./zoom_setting.js')
 
 var ZoomSDK = (function () {
   var instance;
@@ -138,7 +150,42 @@ var ZoomSDK = (function () {
            }
            
            return null
-       }
+       },
+
+       /**
+        * Get Zoom SDK Meeting Setting Module
+        * @return {ZoomSetting}
+       */
+       GetSetting : function (opts) {
+            if (_isSDKInitialized){
+                var clientOpts = opts || {}
+                clientOpts.addon = addon
+                return ZOOMSETTINGMOD.ZoomSetting.getInstance(clientOpts)
+        }
+        
+        return null
+       },
+
+       /**
+        * Start to monitor the UI action, windows os only.
+        * uiacitonCB: function, such as function uiacitoncb(ZoomSDKUIHOOKHWNDTYPE, ZoomSDKUIHOOKMSGID, HANDLE)
+        */
+        StartMonitorUIAction : function (opts){
+            if (_isSDKInitialized){
+                var clientOpts=opts || {}
+                var uiacitonCB = clientOpts.uiacitonCB || null
+                addon.UIHOOK_StartMonitorUIAction(uiacitonCB)
+            }
+        },
+
+         /**
+        * Stop to monitor the UI action, windows os only.
+        */
+        StopMonitorUIAction : function (){
+            if (_isSDKInitialized){
+                addon.UIHOOK_StopMonitorUIAction()
+            }
+        },
     };
  
   };
