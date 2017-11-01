@@ -153,6 +153,7 @@ var ZoomSDK = (function () {
        },
 
        /**
+<<<<<<< HEAD
         * Get Zoom SDK Meeting Setting Module
         * @return {ZoomSetting}
        */
@@ -167,6 +168,8 @@ var ZoomSDK = (function () {
        },
 
        /**
+=======
+>>>>>>> de2fe398365187abf41c52d99bd82035fdc7ef0a
         * Start to monitor the UI action, windows os only.
         * uiacitonCB: function, such as function uiacitoncb(ZoomSDKUIHOOKHWNDTYPE, ZoomSDKUIHOOKMSGID, HANDLE)
         */
