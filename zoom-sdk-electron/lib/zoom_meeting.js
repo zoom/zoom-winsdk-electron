@@ -50,7 +50,20 @@ var ZoomMeetingUIViewType = {
 	MEETINGUI_FIRST_MONITOR:0,
 	MEETINGUI_SECOND_MONITOR:1,
 };
-
+/*! \enum ConnectionQuality
+    \brief Connection quality.
+    A more detailed struct description.
+*/
+var  ConnectionQuality =
+{
+	Conn_Quality_Unknow:0,
+	Conn_Quality_Very_Bad:1,
+	Conn_Quality_Bad:2,
+	Conn_Quality_Not_Good:3,
+	Conn_Quality_Normal:4,
+	Conn_Quality_Good:5,
+	Conn_Quality_Excellent:6,
+};
 var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
 var ZoomMeetingUIMOD = require('./zoom_meeting_ui_ctrl.js')
 var ZoomAnnotationMOD = require('./zoom_annotation_ctrl.js')
@@ -58,6 +71,7 @@ var ZoomMeetingConfigurationMOD = require('./zoom_meeting_configuration.js')
 var ZoomMeetingAudioMOD = require('./zoom_meeting_audio.js')
 var ZoomMeetingVideoMOD = require('./zoom_meeting_video.js')
 var ZoomMeetingShareMOD = require('./zoom_meeting_share.js')
+var ZoomMeetingINFOMOD = require('./zoom_meeting_info.js')
 
 var ZoomMeeting = (function () {
   var instance;
@@ -299,6 +313,71 @@ var ZoomMeeting = (function () {
             return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
         },
 
+    /**Lock Meeting
+   * @return {ZoomSDKError}
+  */
+        Lock_Meeting: function () {
+            if (_addon) {
+                return _addon.Lock_Meeting()
+            }
+            return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
+        },
+
+     /**Unlock Meeting
+    * @return {ZoomSDKError}
+    */
+        Un_lock_Meeting: function () {
+            if (_addon) {
+                return _addon.Un_lock_Meeting()
+            }
+            return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
+        },
+
+        /**Get Meetin Info
+       * @return {ZoomMeetingInfo}
+         */
+        Getting_GetMeetingInfo: function (opts) {
+            if (_addon) {
+                var clientOpts = opts || {}
+                clientOpts.addon = _addon
+                return ZoomMeetingINFOMOD.ZoomMeetingInfo.getInstance(clientOpts)
+            }
+            return null
+        },
+
+            /**Get Share Session ConnQuality
+            * @return {MeetingConnQuality}
+            */
+            Getting_GetSharingConnQuality: function (opts) {
+                if (_addon) {
+                    var clientOpts = opts || {}
+                    return _addon.Getting_GetSharingConnQuality()
+                }
+                return ""
+            },
+
+        /**Get Video Session ConnQuality
+         * @return {Video ConnQuality}
+         */
+            Getting_GetVideoConnQuality: function (opts) {
+                if (_addon) {
+                    var clientOpts = opts || {}
+                    return _addon.Getting_GetVideoConnQuality()
+                }
+                return ""
+            },
+
+        /**Get Audio Session ConnQuality
+         * @return {Audio ConnQuality}
+         */
+            Getting_GetAudioConnQuality: function (opts) {
+                if (_addon) {
+                    var clientOpts = opts || {}
+                    return _addon.Getting_GetAudioConnQuality()
+                }
+                return ""
+            },
+
         GetUserList :function () {
             return userlist
         },
@@ -400,6 +479,8 @@ module.exports = {
     ZoomMeetingStatus: ZoomMeetingStatus,
     ZoomMeetingFailCode: ZoomMeetingFailCode,
     ZoomAnnotationMOD: ZoomAnnotationMOD,
+    ConnectionQuality:ConnectionQuality,
     ZoomMeetingUIViewType: ZoomMeetingUIViewType,
     ZoomMeeting: ZoomMeeting,
+
 }

@@ -43,14 +43,15 @@ var ZoomSDKUIHOOKMSGID = {
     WM_DESTROY:0x0002,
 };
 
+
 var ZOOMAUTHMOD = require('./zoom_auth.js')
 var ZOOMMEETINGMOD = require('./zoom_meeting.js')
 var ZOOMSETTINGMOD = require('./zoom_setting.js')
 
 var ZoomSDK = (function () {
   var instance;
-/**
- * Zoom SDK JS Module Loader
+ /**
+ * Zoom SDK JS Module Loader  
  * @param {{
  *  ostype: ZOOM_TYPE_OS_TYPE,
  *  apicallretcb: function, The apicallretcb method specifies a callback method to call on API call return.Only take effect when threadsafemode is 1.
@@ -214,6 +215,6 @@ module.exports = {
   ZOOMAUTHMOD: ZOOMAUTHMOD,
   ZOOMMEETINGMOD: ZOOMMEETINGMOD,
   ZOOM_TYPE_OS_TYPE: ZOOM_TYPE_OS_TYPE,
-  
+  ZOOMSETTINGMOD: ZOOMSETTINGMOD,
   ZoomSDK: ZoomSDK,
 }

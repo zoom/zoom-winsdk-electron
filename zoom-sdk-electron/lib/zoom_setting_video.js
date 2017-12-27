@@ -6,8 +6,6 @@ var ZoomVideoSetting = (function () {
  * Zoom SDK VideoSettings Service Init
  * @param {{
  *  addon: zoom sdk module
- *  meetingstatuscb: function, The logincb method specifies a callback method to call on meeting status changed.
- * }} opts
  * @return {ZoomVideoSetting}
  */
   function init(opts) {
@@ -55,8 +53,58 @@ var ZoomVideoSetting = (function () {
         }
         return _cameralist
       },
-    //
-  };
+
+        /** Setting Enable Video Mirror Effect
+        * @param {{
+        *  Enable: Enable or not
+        * }} opts
+        * @return {ZoomSDKError}
+        */
+      Setting_EnableVideoMirrorEffect: function (opts) {
+          if (_addon) {
+              var clientOpts = opts || {}
+              var Enable = clientOpts.Enable
+              return _addon.Setting_EnableVideoMirrorEffect(Enable)
+          }
+          return ZOOMSDKMOD_4VideoSetting.ZoomSDKError.SDKERR_UNINITIALIZE
+      },
+
+        /** Setting Enable Face Beauty Effect
+        * @param {{
+        *  Enable: Enable or not
+        * }} opts
+        * @return {ZoomSDKError}
+        */
+      Setting_EnableFaceBeautyEffect: function (opts) {
+          if (_addon) {
+              var clientOpts = opts || {}
+              var Enable = clientOpts.Enable
+              return _addon.Setting_EnableFaceBeautyEffect(Enable)
+          }
+          return ZOOMSDKMOD_4VideoSetting.ZoomSDKError.SDKERR_UNINITIALIZE
+      },
+
+     /** Check if Video Mirror Effect Enabled.
+    * @return {bool}
+    */
+      Checking_IsVideoMirrorEffectEnabled: function (opts) {
+          if (_addon) {
+              return _addon.Checking_IsVideoMirrorEffectEnabled()
+          }
+          return false
+      },
+
+      /** Check if Face Beauty Effect Enabled.
+      * @return {bool}
+     */
+      Checking_IsFaceBeautyEffectEnabled: function (opts) {
+          if (_addon) {
+              return _addon.Checking_IsFaceBeautyEffectEnabled()
+          }
+          return false
+      }
+    };
+  
 };
   return {
     /**

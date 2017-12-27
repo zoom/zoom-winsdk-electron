@@ -6,7 +6,6 @@ var ZoomAudioSetting = (function () {
  * Zoom SDK Audio Settings Service Init
  * @param {{
  *  addon: zoom sdk module
- *  meetingstatuscb: function, The logincb method specifies a callback method to call on meeting status changed.
  * }} opts
  * @return {ZoomAudioSetting}
  */
@@ -18,6 +17,7 @@ var ZoomAudioSetting = (function () {
     var _addon = clientOpts.addon || null
     var _miclist = new Array();
     var _speakerlist = new Array();
+ 
 
     function ParseDeviceList(devicelist, str) {
         var devicearray = JSON.parse(str);
@@ -33,7 +33,7 @@ var ZoomAudioSetting = (function () {
     return {
     	/** Select mic
 		   * @param {{
-		   *  deviceId: String, deviceName :string ,Device&deviceName id of camera
+		   *  deviceId: string, deviceName :string ,Device&deviceName id of camera
 		   * }} opts
 		   * @return {ZoomSDKError}
 		   */
@@ -91,7 +91,56 @@ var ZoomAudioSetting = (function () {
         return _speakerlist
        
       },
-    //
+
+        /** Check if Auto Join Audio.
+          * @return {bool}
+          */
+      Checking_IsAutoJoinAudioEnabled: function (opts) {
+          if (_addon) {
+              return _addon.Checking_IsAutoJoinAudioEnabled()
+          }
+          return false
+      },
+
+        /** Check if Auto Adjust Mic.
+          * @return {bool}
+          */
+        Checking_IsAutoAdjustMicEnabled: function (opts) {
+          if (_addon) {
+              return _addon.Checking_IsAutoAdjustMicEnabled()
+          }
+          return false
+      },
+
+        /** Setting Enable Auto Join Audio
+          * @param {{
+          *  Enable: Enable or not
+          * }} opts
+          * @return {ZoomSDKError}
+          */
+      Setting_EnableAutoJoinAudio: function (opts) {
+          if (_addon) {
+              var clientOpts = opts || {}
+              var Enable = clientOpts.Enable
+              return _addon.Setting_EnableAutoJoinAudio(Enable)
+          }
+          return ZOOMSDKMOD_4AudioSetting.ZoomSDKError.SDKERR_UNINITIALIZE
+      },
+
+   /** Setting Enable Auto Adjust Mic
+  * @param {{
+  *  Enable: Enable or not
+  * }} opts
+  * @return {ZoomSDKError}
+  */
+      Setting_EnableAutoAdjustMic: function (opts) {
+          if (_addon) {
+              var clientOpts = opts || {}
+              var Enable = clientOpts.Enable
+              return _addon.Setting_EnableAutoAdjustMic(Enable)
+          }
+          return ZOOMSDKMOD_4AudioSetting.ZoomSDKError.SDKERR_UNINITIALIZE
+      },
   };
 };
   return {
@@ -114,4 +163,5 @@ var ZoomAudioSetting = (function () {
 
 module.exports = {
     ZoomAudioSetting: ZoomAudioSetting,
+
 }

@@ -54,7 +54,64 @@ var ZoomMeetingVideo = (function () {
                 return _addon.MeetingVideo_UnMuteVideo()
             }
             return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
-        },
+       },
+
+        /**pin video
+        * @param {{
+       *  Pin: Pin or not
+       *  FirstView: FirstView or not
+       *  userid:Specifies which the user's video to pin
+       * }}
+       * @return {ZoomSDKError}
+       */
+       MeetingVideo_PinVideo: function (opts) {
+        if (_addon){
+            var clientOpts = opts || {}
+            var Pin = clientOpts.Pin
+            var FirstView = clientOpts.FirstView
+            var userid = clientOpts.userid
+  
+            return _addon.MeetingVideo_PinVideo(Pin, FirstView, userid)
+        }
+
+        return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
+    },
+
+
+
+        /**Spotlight video
+        * @param {{
+       *  Spotlight: Spotlight or not
+       *  userid:Specifies which the user's video to pin
+       * }}
+       * @return {ZoomSDKError}
+       */
+       MeetingVideo_SpotlightVideo: function (opts) {
+           if (_addon) {
+               var clientOpts = opts || {}
+               var Spotlight = clientOpts.Spotlight
+               var userid = clientOpts.userid
+               return _addon.MeetingVideo_SpotlightVideo(Spotlight, userid)
+           }
+           return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
+       },
+
+
+        /**Hide Or Show No Video User On Video Wall 
+        * @param {{
+        Hide:Hide or not
+       * }}
+       * @return {ZoomSDKError}
+       */
+       MeetingVideo_HideOrShowNoVideoUserOnVideoWall: function (opts) {
+           if (_addon) {
+               var clientOpts = opts || {}
+               var Hide = clientOpts.Hide
+               return _addon.MeetingVideo_HideOrShowNoVideoUserOnVideoWall(Hide)
+           }
+           return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
+       },
+
     };
   };
  

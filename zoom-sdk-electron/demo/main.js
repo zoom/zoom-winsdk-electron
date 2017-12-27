@@ -222,9 +222,6 @@ function login(username, psw){
     showWaitingWindow();
   }
   zoomauth.Login(username, psw, false);
-  //sso login
-  //var ssotoken=""
-  //zoomauth.LoginWithSSOToken(ssotoken)
 }
 
 function audiostatuscb(userid, status){
