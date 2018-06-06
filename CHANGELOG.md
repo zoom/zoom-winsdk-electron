@@ -1,4 +1,14 @@
 # CHANGELOG
+## 2018-05-22
+
+### Added
+
+a>add new language support(Italian Portuguese Russian)
+
+b>support to enable or disable always show name on video
+
+c>support to enable or disable turn off video when join meeting
+
 ## 2017-12-25
 
 ### Added
