@@ -11,7 +11,10 @@ var ZoomSDK_LANGUAGE_ID = {
 	LANGUAGE_Japanese:4,
 	LANGUAGE_Spanish:5,
 	LANGUAGE_German:6,
-	LANGUAGE_French:7,
+    LANGUAGE_French:7,
+    LANGUAGE_Italian:8,
+	LANGUAGE_Portuguese:9,
+	LANGUAGE_Russian:10,
 };
 
 var ZoomSDKError = {
