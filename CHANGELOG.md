@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2018-10-29
+
+* Upgrade Node.js to v8.12.0 and Electron to v2.0.7
+
 ## 2018-09-11
 
 No interface changes

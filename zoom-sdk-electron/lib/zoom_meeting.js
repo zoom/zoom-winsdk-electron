@@ -64,16 +64,6 @@ var  ConnectionQuality =
 	Conn_Quality_Good:5,
 	Conn_Quality_Excellent:6,
 };
-
-var  ZoomUserType =
-{
-    ZoomUserType_APIUSER:0,
-	ZoomUserType_EMAIL_LOGIN:1,
-	ZoomUserType_FACEBOOK:2,
-	ZoomUserType_GoogleOAuth:3,
-	ZoomUserType_SSO:4,
-	ZoomUserType_Unknown:5,
-};
 var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
 var ZoomMeetingUIMOD = require('./zoom_meeting_ui_ctrl.js')
 var ZoomAnnotationMOD = require('./zoom_annotation_ctrl.js')
@@ -217,7 +207,6 @@ var ZoomMeeting = (function () {
         *  directshareappwndhandle: Number, Windows handle of which window you want to share directly
         *  participantid: String, ID for meeting participant report list, need web backend enable.
         *  isdirectsharedesktop: boolean
-        *  zoomaccesstoekn: zoom access token
         * }} opts
         * @return {ZoomSDKError}
         */
@@ -231,11 +220,8 @@ var ZoomMeeting = (function () {
                var directshareappwndhandle = clientOpts.directshareappwndhandle || 0
                var participantid = clientOpts.participantid || ''
                var isdirectsharedesktop = (clientOpts.isdirectsharedesktop === undefined) ? false : clientOpts.isdirectsharedesktop
-               var zoomaccesstoekn = clientOpts.zoomaccesstoekn || 'null'
-               var zoomusertype = clientOpts.zoomusertype || ZoomUserType.ZoomUserType_APIUSER
 
-               return _addon.StartMeeting_APIUSER(userid, usertoken, username, meetingnumber,
-                 directshareappwndhandle, participantid, isdirectsharedesktop, zoomaccesstoekn, zoomusertype)
+               return _addon.StartMeeting_APIUSER(userid, usertoken, username, meetingnumber, directshareappwndhandle, participantid, isdirectsharedesktop)
            }
 
            return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
