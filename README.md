@@ -27,4 +27,7 @@ Run “cmd” as admin, cd to zoom_electron/demo
 Run npm set npm_config_arch is32
 
 Run Electron - on windows, its "electron ."
-      
+
+## Support
+
+For any issues regarding our SDK, please visit our new Community Support Forum at https://devforum.zoom.us/.
