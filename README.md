@@ -5,8 +5,8 @@ This is a basic version to support Electron framework.
 Please use the following steps to get the sample app setup and running.
 
 Install python 2.7.x and setuptools
-Install nodejs v6.10.3 32bits
-https://nodejs.org/download/release/v6.10.3/node-v6.10.3-x86.msi
+Install nodejs v8.12.0 32bits
+https://nodejs.org/download/release/v8.12.0/node-v8.12.0-x86.msi
 
 Install Electron
 
