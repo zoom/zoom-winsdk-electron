@@ -1,5 +1,5 @@
 
-var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
+//var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
 
 var ZoomMeetingConfiguration = (function () {
   var instance;
@@ -11,11 +11,18 @@ var ZoomMeetingConfiguration = (function () {
  * @return {ZoomMeetingConfiguration}
  */
   function init(opts) {
- 
+    var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
     var clientOpts = opts || {};
-
+    var _osType = clientOpts.ostype
     // Private methods and variables
-    var _addon = clientOpts.addon || null
+    var _addon
+    if (ZOOMSDKMOD_4MEET.ZOOM_TYPE_OS_TYPE.WIN_OS == _osType)
+    {
+      _addon = clientOpts.addon || null
+    }else if(ZOOMSDKMOD_4MEET.ZOOM_TYPE_OS_TYPE.MAC_OS == _osType){
+      var MEETINGCONFIGBRIDGE = require('./mac/meeting_config_bridge.js');
+      _addon = MEETINGCONFIGBRIDGE.zoomMeetingConfigBridge;
+    }
     return {
 
    // Public methods and variables
@@ -243,8 +250,34 @@ var ZoomMeetingConfiguration = (function () {
               return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
           },
 
+       /** config disable or enable free user original UI 
+       * @param {{
+       * }} opts
+       * @return {ZoomSDKError}
+       */
+          MeetingConfig_DisableFreeUserOriginAction: function (opts) {
+            if (_addon) {
+                var disable = opts.disable
+                return _addon.MeetingConfig_DisableFreeUserOriginAction(disable)
+            }
+            return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
+        },
+		
+        /** Set the visibility of Invite button in te toolbar
+         * @param {{
+         *  show: show or not
+         * }} opts
+         * @return {ZoomSDKError}
+         */
+          MeetingConfig_EnableInviteButtonOnMeetingUI: function (opts) {
+              if (_addon) {
+                  var clientOpts = opts || {}
+                  var show = clientOpts.show
+                  return _addon.MeetingConfig_EnableInviteButtonOnMeetingUI(show)
+              }
 
-
+              return ZOOMSDKMOD_4MEET.ZoomSDKError.SDKERR_UNINITIALIZE
+          },		
 
     };
  

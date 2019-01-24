@@ -5,8 +5,12 @@ var ZoomMeetingUIFloatVideoType = {
 	FLOATVIDEO_Minimize:3,
 };
 
-var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
+var ZoomMeetingButtonType = {
+    ButtonType_ToolBarParticipant:0,
+    ButtonType_ToolBarShare:1,
+    ButtonType_ToolBarInvite:2,
 
+};
 var ZoomMeetingUICtrl = (function () {
   var instance;
    /**
@@ -18,10 +22,32 @@ var ZoomMeetingUICtrl = (function () {
  */
   function init(opts) {
  
+    var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
+    var ZOOMSDKMEETINGMOD = require('./zoom_meeting.js')
     var clientOpts = opts || {};
-
+    var sdkbuttonclickcb = opts.sdkbuttonclickcb;
+    var _ostype = opts.ostype;
+    var _addon
     // Private methods and variables
-    var _addon = clientOpts.addon || null
+    if(ZOOMSDKMOD_4MEET.ZOOM_TYPE_OS_TYPE.WIN_OS == _ostype)
+         _addon = clientOpts.addon || null
+    else{
+        var MEETINGUIBRIDGE = require('./mac/meeting_uicontroller_bridge.js')
+        _addon = MEETINGUIBRIDGE.zoomMeetingUIController
+    }
+    if(_addon)
+    {
+        if(ZOOMSDKMOD_4MEET.ZOOM_TYPE_OS_TYPE.MAC_OS== _ostype)
+        {
+            _addon.setSDKButtonClickedCB(onSDKButtonClicked);
+        }
+    }
+
+    function onSDKButtonClicked(buttonType)
+    {
+        sdkbuttonclickcb(buttonType);
+    }
+
     return {
  
       // Public methods and variables
@@ -69,9 +95,9 @@ var ZoomMeetingUICtrl = (function () {
         MeetingUI_EnterFullScreen: function (opts) {
             if (_addon){
                 var clientOpts = opts || {}
-                var viewtype = clientOpts.viewtype || ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
-                var bFirstView = (ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR == viewtype) ? true : false
-                var bSecView = (ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR == viewtype) ? false : true
+                var viewtype = clientOpts.viewtype || ZOOMSDKMEETINGMOD.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
+                var bFirstView = (ZOOMSDKMEETINGMOD.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR == viewtype) ? true : false
+                var bSecView = (ZOOMSDKMEETINGMOD.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR == viewtype) ? false : true
                 return _addon.MeetingUI_EnterFullScreen(bFirstView, bSecView)
             }
 
@@ -87,9 +113,9 @@ var ZoomMeetingUICtrl = (function () {
         MeetingUI_ExitFullScreen: function (opts) {
             if (_addon){
                 var clientOpts = opts || {}
-                var viewtype = clientOpts.viewtype || ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
-                var bFirstView = (ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR == viewtype) ? true : false
-                var bSecView = (ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR == viewtype) ? false : true
+                var viewtype = clientOpts.viewtype || ZOOMSDKMEETINGMOD.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
+                var bFirstView = (ZOOMSDKMEETINGMOD.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR == viewtype) ? true : false
+                var bSecView = (ZOOMSDKMEETINGMOD.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR == viewtype) ? false : true
                 return _addon.MeetingUI_ExitFullScreen(bFirstView, bSecView)
             }
 
@@ -268,4 +294,5 @@ var ZoomMeetingUICtrl = (function () {
 module.exports = {
     ZoomMeetingUIFloatVideoType: ZoomMeetingUIFloatVideoType,
     ZoomMeetingUICtrl: ZoomMeetingUICtrl,
+    ZoomMeetingButtonType: ZoomMeetingButtonType,
 }

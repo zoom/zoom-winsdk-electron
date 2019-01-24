@@ -9,7 +9,7 @@ var ZoomMeetingAudioStatus = {
 };
 
 
-var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
+//var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
 
 var ZoomMeetingAudio = (function () {
   var instance;
@@ -21,11 +21,19 @@ var ZoomMeetingAudio = (function () {
  * @return {ZoomMeetingAudio}
  */
   function init(opts) {
- 
+    var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
     var clientOpts = opts || {};
 
     // Private methods and variables
-    var _addon = clientOpts.addon || null
+    var _ostype = clientOpts.ostype
+    var _addon
+    if( ZOOMSDKMOD_4MEET.ZOOM_TYPE_OS_TYPE.WIN_OS == _ostype)
+        _addon = clientOpts.addon || null
+    else if(ZOOMSDKMOD_4MEET.ZOOM_TYPE_OS_TYPE.MAC_OS == _ostype)
+    {
+       var MEETINGACTIONBRIDGE = require('./mac/meeting_action_bridge.js')
+        _addon = MEETINGACTIONBRIDGE.zoomMeetingActionBridge
+    }    
     var _audiostatuscb = clientOpts.audiostatuscb || null
     var _zoommeeting = clientOpts.zoommeeting || null
 
@@ -34,7 +42,11 @@ var ZoomMeetingAudio = (function () {
     }
 
     function onUserAudioStatusChange(audiostatusinfo) {
-      var audiostatus = JSON.parse(audiostatusinfo);
+      if (typeof audiostatusinfo === 'string')
+        var audiostatus = JSON.parse(audiostatusinfo);
+      else
+        var audiostatus = audiostatusinfo;
+
       audiostatus.audiostatusnotify.forEach(function (item, index) {
         var userid = parseInt(item.userid, 10)
         var audiostatus = item.audiostatus

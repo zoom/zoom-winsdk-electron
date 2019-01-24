@@ -1,4 +1,4 @@
-var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
+//var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
 
 var ZoomMeetingShare = (function () {
   var instance;
@@ -10,11 +10,17 @@ var ZoomMeetingShare = (function () {
  * @return {ZoomMeetingShare}
  */
   function init(opts) {
- 
+    var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
     var clientOpts = opts || {};
-
+    var _ostype = clientOpts.ostype
     // Private methods and variables
-    var _addon = clientOpts.addon || null
+    var _addon
+    if(ZOOMSDKMOD_4MEET.ZOOM_TYPE_OS_TYPE.WIN_OS == _ostype)
+       _addon = clientOpts.addon || null
+    else{
+       var MEETINGASBRIDGE = require('./mac/meeting_as_bridge.js')
+       _addon = MEETINGASBRIDGE.zoomMeetingASBridge
+    }
     return {
  
       // Public methods and variables

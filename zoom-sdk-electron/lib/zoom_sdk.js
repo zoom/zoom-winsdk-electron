@@ -71,11 +71,14 @@ var ZoomSDK = (function () {
     var _apicallresultCB = clientOpts.apicallretcb || null
     var _threadsafemode = clientOpts.threadsafemode || 1
     if (ZOOM_TYPE_OS_TYPE.WIN_OS == _osType){
-        var _path = clientOpts.path || './build/Release/'
-        var zoomnodepath = _path + 'zoomsdk'
-        addon = require(zoomnodepath)
+        var _path = clientOpts.path || './windows/bin/'
+        var zoomnodepath = _path + 'zoomsdk.node'
+		addon = require(zoomnodepath)
     } else if (ZOOM_TYPE_OS_TYPE.MAC_OS == _osType){
-        //todo
+        var _path = clientOpts.path || './mac/'
+        var zoomsdkpath = _path + 'zoomsdk_bridge.js'
+        var zoomsdk = require(zoomsdkpath)
+        var addon = zoomsdk.zoomSDKBridge
     }
 
     var _isSDKInitialized = false
@@ -136,6 +139,7 @@ var ZoomSDK = (function () {
            if (_isSDKInitialized){
                 var clientOpts = opts || {}
                 clientOpts.addon = addon
+                clientOpts.ostype = _osType
                 return ZOOMAUTHMOD.ZoomAuth.getInstance(clientOpts)
            }
 
@@ -150,6 +154,7 @@ var ZoomSDK = (function () {
            if (_isSDKInitialized){
                 var clientOpts = opts || {}
                 clientOpts.addon = addon
+                clientOpts.ostype = _osType
                 return ZOOMMEETINGMOD.ZoomMeeting.getInstance(clientOpts)
            }
            
@@ -164,6 +169,7 @@ var ZoomSDK = (function () {
             if (_isSDKInitialized){
                 var clientOpts = opts || {}
                 clientOpts.addon = addon
+                clientOpts.ostype = _osType
                 return ZOOMSETTINGMOD.ZoomSetting.getInstance(clientOpts)
         }
         

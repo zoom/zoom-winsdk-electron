@@ -19,7 +19,7 @@ var ZoomAnnotationClearType = {
     ANNOCLEAR_OTHER     :2,
 };
 
-var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
+//var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
 
 var ZoomAnnotationCtrl = (function () {
   var instance;
@@ -31,11 +31,18 @@ var ZoomAnnotationCtrl = (function () {
  * @return {ZoomAnnotationCtrl}
  */
   function init(opts) {
- 
+    var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
+    var ZOOMSDKMEETIGNMODE = require('./zoom_meeting.js')
     var clientOpts = opts || {};
-
+    var _ostype = clientOpts._ostype;
     // Private methods and variables
-    var _addon = clientOpts.addon || null
+    var _addon
+    if(ZOOMSDKMOD_4MEET.ZOOM_TYPE_OS_TYPE.WIN_OS == _ostype)
+       _addon = clientOpts.addon || null
+    else{
+        var MEETINGASBRIDGE = require('./mac/meeting_as_bridge.js')
+        _addon = MEETINGASBRIDGE.zoomMeetingASBridge
+    }
     return {
  
       // Public methods and variables
@@ -59,7 +66,7 @@ var ZoomAnnotationCtrl = (function () {
         Annotaion_StartAnnotation : function (opts) {
             if (_addon){
                 var clientOpts = opts || {}
-                var viewtype = clientOpts.viewtype || ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
+                var viewtype = clientOpts.viewtype || ZOOMSDKMEETIGNMODE.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
                 var left = clientOpts.left
                 var top = clientOpts.top
                 return _addon.Annotaion_StartAnnotation(viewtype, left, top)
@@ -77,7 +84,7 @@ var ZoomAnnotationCtrl = (function () {
         Annotaion_StopAnnotation : function (opts) {
             if (_addon){
                 var clientOpts = opts || {}
-                var viewtype = clientOpts.viewtype || ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
+                var viewtype = clientOpts.viewtype || ZOOMSDKMEETIGNMODE.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
                 return _addon.Annotaion_StopAnnotation(viewtype)
             }
 
@@ -94,7 +101,7 @@ var ZoomAnnotationCtrl = (function () {
         Annotaion_SetTool : function (opts) {
             if (_addon){
                 var clientOpts = opts || {}
-                var viewtype = clientOpts.viewtype || ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
+                var viewtype = clientOpts.viewtype || ZOOMSDKMEETIGNMODE.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
                 var type = clientOpts.type || ZoomAnnotationToolType.ANNOTOOL_NONE_DRAWING
                 return _addon.Annotaion_SetTool(viewtype, type)
             }
@@ -112,7 +119,7 @@ var ZoomAnnotationCtrl = (function () {
         Annotaion_Clear : function (opts) {
             if (_addon){
                 var clientOpts = opts || {}
-                var viewtype = clientOpts.viewtype || ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
+                var viewtype = clientOpts.viewtype || ZOOMSDKMEETIGNMODE.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
                 var type = clientOpts.type || ZoomAnnotationClearType.ANNOCLEAR_ALL
                 return _addon.Annotaion_Clear(viewtype, type)
             }
@@ -130,7 +137,7 @@ var ZoomAnnotationCtrl = (function () {
         Annotaion_SetColor : function (opts) {
             if (_addon){
                 var clientOpts = opts || {}
-                var viewtype = clientOpts.viewtype || ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
+                var viewtype = clientOpts.viewtype || ZOOMSDKMEETIGNMODE.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
                 var color = clientOpts.color
                 return _addon.Annotaion_SetColor(viewtype, color)
             }
@@ -148,7 +155,7 @@ var ZoomAnnotationCtrl = (function () {
         Annotaion_SetLineWidth : function (opts) {
             if (_addon){
                 var clientOpts = opts || {}
-                var viewtype = clientOpts.viewtype || ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
+                var viewtype = clientOpts.viewtype || ZOOMSDKMEETIGNMODE.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
                 var lineWidth = clientOpts.lineWidth
                 return _addon.Annotaion_SetLineWidth(viewtype, lineWidth)
             }
@@ -165,7 +172,7 @@ var ZoomAnnotationCtrl = (function () {
         Annotaion_Undo : function (opts) {
             if (_addon){
                 var clientOpts = opts || {}
-                var viewtype = clientOpts.viewtype || ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
+                var viewtype = clientOpts.viewtype || ZOOMSDKMEETIGNMODE.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
                 return _addon.Annotaion_Undo(viewtype)
             }
 
@@ -181,7 +188,7 @@ var ZoomAnnotationCtrl = (function () {
         Annotaion_Redo : function (opts) {
             if (_addon){
                 var clientOpts = opts || {}
-                var viewtype = clientOpts.viewtype || ZOOMSDKMOD_4MEET.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
+                var viewtype = clientOpts.viewtype || ZOOMSDKMEETIGNMODE.ZoomMeetingUIViewType.MEETINGUI_FIRST_MONITOR
                 return _addon.Annotaion_Redo(viewtype)
             }
 

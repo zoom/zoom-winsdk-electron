@@ -3,7 +3,7 @@ var ZoomMeetingVideoStatus = {
   Video_OFF: 1,
 };
 
-var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
+//var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
 
 var ZoomMeetingVideo = (function () {
   var instance;
@@ -15,13 +15,20 @@ var ZoomMeetingVideo = (function () {
  * @return {ZoomMeetingVideo}
  */
   function init(opts) {
- 
-   var clientOpts = opts || {};
+    var ZOOMSDKMOD_4MEET = require('./zoom_sdk.js')
+    var clientOpts = opts || {};
+    var _ostype = clientOpts.ostype
     var _videostatuscb = clientOpts.videostatuscb || null
     var _zoommeeting = clientOpts.zoommeeting || null
 
     // Private methods and variables
-    var _addon = clientOpts.addon || null
+    var _addon
+    if(ZOOMSDKMOD_4MEET.ZOOM_TYPE_OS_TYPE.WIN_OS == _ostype)
+        _addon = clientOpts.addon || null
+    else if(ZOOMSDKMOD_4MEET.ZOOM_TYPE_OS_TYPE.MAC_OS == _ostype){
+        var MEETINGACTIONBRIDGE = require('./mac/meeting_action_bridge.js')
+        _addon = MEETINGACTIONBRIDGE.zoomMeetingActionBridge
+    }
     if (_addon){
       _addon.SetMeetingVideoStatusCB(onUserVideoStatusChange)
     }

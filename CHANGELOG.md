@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2019-01-23
+
+Changed & Fixed
+* The location of zoomsdk node files from \lib\node_modules\zoomsdk\build\Release\ to \lib\windows\bin\. ------[Please modify the path in your js files if you are upgraded from the previous version. You can select the directory for your node files and dll files, please ensure they are in the same root directory]
+
+
 ## 2018-10-29
 
 * Upgrade Node.js to v8.12.0 and Electron to v2.0.7
@@ -122,54 +128,54 @@ Setting_GetCameraList: function ()
    Annotaion_IsAnnotaionDisable
 
    Annotaion_StartAnnotation
-   
+
    Annotaion_StopAnnotation
-   
+
    Annotaion_SetTool
-   
+
    Annotaion_Clear
-   
+
    Annotaion_SetColor
-   
+
    Annotaion_SetLineWidth
-   
+
    Annotaion_Undo
-   
+
    Annotaion_Redo
-   
+
 
 2. Support to get Zoom Meeting UI:
 
    MeetingUI_ShowChatDlg
-   
+
    MeetingUI_HideChatDlg
-   
+
    MeetingUI_EnterFullScreen
-   
+
    MeetingUI_ExitFullScreen
-   
+
    MeetingUI_SwitchToVideoWall
-   
+
    MeetingUI_SwtichToAcitveSpeaker
-   
+
    MeetingUI_MoveFloatVideoWnd
-   
+
    MeetingUI_ShowSharingToolbar
-   
+
    MeetingUI_SwitchFloatVideoToActiveSpkMod
-   
+
    MeetingUI_ChangeFloatActiveSpkVideoSize
-   
+
    MeetingUI_SwitchFloatVideoToGalleryMod
-   
+
    MeetingUI_ShowParticipantsListWnd
-   
+
    MeetingUI_ShowBottomFloatToolbarWnd
-   
+
    MeetingUI_ShowJoinAudioDlg
-   
+
    MeetingUI_HideJoinAudioDlg
-   
+
 
 ## 2017-06-08
 

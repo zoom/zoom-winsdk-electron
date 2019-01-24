@@ -15,7 +15,7 @@ var ZoomLoginStatus = {
 	LOGIN_SUCCESS:2,///< Login success
 	LOGIN_FAILED:3,///< Login failed
 };
-var ZOOMSDKMOD_4AUTH = require('./zoom_sdk.js')
+//var ZOOMSDKMOD_4AUTH = require('./zoom_sdk.js')
 
 var ZoomAuth = (function () {
   var instance;
@@ -32,15 +32,28 @@ var ZoomAuth = (function () {
   function init(opts) {
  
     var clientOpts = opts || {};
-
+    var ZOOMSDKMOD_4AUTH = require('./zoom_sdk.js')
     // Private methods and variables
-    var _addon = clientOpts.addon || null
+    var _osType = clientOpts.ostype
+    var _addon
+    if (ZOOMSDKMOD_4AUTH.ZOOM_TYPE_OS_TYPE.WIN_OS == _osType)
+    {
+        _addon = clientOpts.addon || null
+    }else if (ZOOMSDKMOD_4AUTH.ZOOM_TYPE_OS_TYPE.MAC_OS == _osType)
+    {
+        var AUTHBRIDGE = require('./mac/auth_bridge.js');
+        _addon = AUTHBRIDGE.ZoomAuthBJ
+    }
     var _authcb = clientOpts.authcb || null
     var _logincb = clientOpts.logincb || null
     var _logoutcb = clientOpts.logoutcb || null
     var _isSDKAuthentication = false
 
     if (_addon){
+		if (ZOOMSDKMOD_4AUTH.ZOOM_TYPE_OS_TYPE.MAC_OS == _osType)
+		{
+			_addon.SetAuthCB(onAuthResult)
+		}
         _addon.SetLoginCB(onLoginResult)
         _addon.SetLogoutCB(onLogOutResult)
     }
@@ -48,7 +61,13 @@ var ZoomAuth = (function () {
     function onAuthResult(result) {
         if (ZoomAuthResult.AUTHRET_SUCCESS == result) {
             _isSDKAuthentication = true
-        } else {
+            if(ZOOMSDKMOD_4AUTH.ZOOM_TYPE_OS_TYPE.MAC_OS == _osType)
+            {
+               var ZOOMSDKBRIDGE = require('./mac/zoomsdk_bridge.js')
+               ZOOMSDKBRIDGE.zoomSDKBridge.InitComponent();
+            }
+        } 
+        else {
             _isSDKAuthentication = false
         }
         if (null != _authcb)
@@ -74,6 +93,16 @@ var ZoomAuth = (function () {
      *  @param appsecret: String,
      * @return {ZoomSDKError}
      */
+     onAuthResult: function (result) {
+        if (ZoomAuthResult.AUTHRET_SUCCESS == result) {
+            _isSDKAuthentication = true
+        } else {
+            _isSDKAuthentication = false
+        }
+        if (null != _authcb)
+            _authcb(result)
+    },
+
         SDKAuth: function (appkey, appsecret){
             if (_addon){
                return  _addon.SDKAuth(appkey, appsecret, onAuthResult)
