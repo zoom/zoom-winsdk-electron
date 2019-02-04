@@ -39,31 +39,24 @@ Clone or download a copy of our SDK files from GitHub. After you unzipped the fi
 ```
 Please refer to the following steps to install and compile:
 
-1. Install dependencies
-  * Install python 2.7.x and setuptools
-  * Install nodejs v8.12.0 32bits
-    * https://nodejs.org/download/release/v8.12.0/node-v8.12.0-x86.msi
-
-2. Install Electron
-```
-npm install –g electron
-
-npm install –g –arch=ia32 electron-prebuilt
-```
-
-The addon is built by VS2015, if you are not using VS2015 or windows 10, please install x86 crt library of VS2015: vcredist_x86.exe
-
-3. Copy zoom_electron to local directory
-
-  * Download the latest Zoom windows SDK (https://github.com/zoom/zoom-sdk-windows)
-
-  * Unzip zoom sdk package, copy contents under “bin” to zoom_electron\lib\node_modules\zoomsdk\build\Release
-
-  * Run “cmd” as admin, cd to zoom_electron/demo
-
-  * Run npm set npm_config_arch is32
-
-  * Run Electron - on windows, its "electron ."
+1. Download the latest SDK from: https://github.com/zoom/zoom-winsdk-electron
+2. Install python 2.7 and setuptools
+ * Python 2.7.15: https://www.python.org/downloads/release/python-2715/
+ * Install pip: https://pip.pypa.io/en/stable/installing/
+    * *curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py*
+    * *python get-pip.py*
+ * Install setuptools (Normally it comes with python 2.7 installation, if not, please install it manually)
+    * *pip install setuptools*
+3. Install Node.js v8.12.0(After installation, please restart your computer): https://nodejs.org/download/release/v8.12.0/node-v8.12.0-x86.msi
+4. Install Electron v2.0.7: *npm install -g -D electron@2.0.7*
+5. Install Visual Studio 2015: 
+  * web installer: https://go.microsoft.com/fwlink/?LinkId=532606&clcid=0x409
+  * ISO: https://go.microsoft.com/fwlink/?LinkId=615448&clcid=0x409
+6. Download Zoom Windows SDK: https://github.com/zoom/zoom-sdk-windows
+7. Unzip and copy the files in **\zoom-sdk-windows-master\bin**, and paste them into **\zoom-sdk-electron\lib\**
+8. Run “cmd” and navigate to “zoom-sdk-electron\demo”
+9. Run *“npm set npm_config_arch=ai32”*
+10. Run *“electron .”* to run the demo app. You should see the demo app pops up.
 
 
 ## Documentation
@@ -81,7 +74,7 @@ Please refer to our [CHANGELOG](https://github.com/zoom/zoom-winsdk-electron/blo
 ## Frequently Asked Questions (FAQ)
 
 * :one: `Error: Module version mismatch. Expected 50, got 57.at Error (native)`:
-  * Our Electron SDK requires **Node.js version 8.12.0** and if you have higher version, you will get this error message. Using **Node.js 8.12.0** will resolve this problem.
+  * Our Electron SDK requires **Node.js version 8.12.0 and electron version 2.0.7** and if you have higher version, you will get this error message. Using **Node.js 8.12.0 and electron 2.0.7** will resolve this problem.
 * Not finding what you want? We are here to help! Please visit our [Zoom Developer Community Forum](https://devforum.zoom.us/) for further assistance.
 
 ## Support
