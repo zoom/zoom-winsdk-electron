@@ -9,7 +9,7 @@
 ## Getting Started
 
 The following instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-* For detailed instructions, please refer to our documentation website: [https://marketplace.zoom.us/docs/sdk/hybrid-frameworks/electron-support](https://marketplace.zoom.us/docs/sdk/hybrid-frameworks/electron-support);
+* For detailed instructions, please refer to our documentation website: [https://marketplace.zoom.us/docs/sdk/hybrid-frameworks/electron](https://marketplace.zoom.us/docs/sdk/hybrid-frameworks/electron);
 * If you need support or assistance, please visit our [Zoom Developer Community Forum](https://devforum.zoom.us/);
 
 ### Prerequisites
@@ -48,12 +48,12 @@ Please refer to the following steps to install and compile:
  * Install setuptools (Normally it comes with python 2.7 installation, if not, please install it manually)
     * *pip install setuptools*
 3. Install Node.js v8.12.0(After installation, please restart your computer): https://nodejs.org/download/release/v8.12.0/node-v8.12.0-x86.msi
-4. Install Electron v2.0.7: *npm install -g -D electron@2.0.7*
+4. Install Electron v2.0.7: *npm install -g --arch=ia32 --save-dev electron@2.0.7*
 5. Install Visual Studio 2015: 
   * web installer: https://go.microsoft.com/fwlink/?LinkId=532606&clcid=0x409
   * ISO: https://go.microsoft.com/fwlink/?LinkId=615448&clcid=0x409
 6. Download Zoom Windows SDK: https://github.com/zoom/zoom-sdk-windows
-7. Unzip and copy the files in **\zoom-sdk-windows-master\bin**, and paste them into **\zoom-sdk-electron\lib\**
+7. Unzip and copy the files in **\zoom-sdk-windows-master\bin**, and paste them into **\zoom-sdk-electron\lib\windows\bin**
 8. Run “cmd” and navigate to “zoom-sdk-electron\demo”
 9. Run *“npm set npm_config_arch=ai32”*
 10. Run *“electron .”* to run the demo app. You should see the demo app pops up.
@@ -61,7 +61,7 @@ Please refer to the following steps to install and compile:
 
 ## Documentation
 
-Please visit [[https://marketplace.zoom.us/docs/sdk/hybrid-frameworks/electron-support](https://marketplace.zoom.us/docs/sdk/hybrid-frameworks/electron-support)] for details of each features and functions.
+Please visit [[https://marketplace.zoom.us/docs/sdk/hybrid-frameworks/electron](https://marketplace.zoom.us/docs/sdk/hybrid-frameworks/electron)] for details of each features and functions.
 
 ## Versioning
 
