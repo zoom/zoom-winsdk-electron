@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2019-03-25
+
+* No interface changes, please refer to [Windows SDK CHANGELOG](https://github.com/zoom/zoom-sdk-windows/blob/master/CHANGELOG.md) regarding the changes on Windows SDK.
+
 ## 2019-01-23
 
 Changed & Fixed

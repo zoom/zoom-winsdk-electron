@@ -1,0 +1,2 @@
+1.zoom window sdk nodejs addon only support 32bit
+2.copy all files of zoom sdk bin folder to "lib\windows\bin"
