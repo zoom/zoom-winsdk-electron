@@ -1,6 +1,22 @@
 # Zoom Electron SDK on Windows
 
-> Our brand new [Zoom Developer Community Forum](https://devforum.zoom.us/) is now online!!! Check it out! We are here to help! :D
+<div align="center">
+<img src="https://s3.amazonaws.com/user-content.stoplight.io/8987/1541013063688" width="400px" max-height="400px" style="margin:auto;"/>
+</div>
+
+## Latest SDK Notifications
+1. Our brand new [Zoom Developer Community Forum](https://devforum.zoom.us/) is now online!!! Check it out! We are here to help! :D
+
+## Full Documentation && Community Support
+You can find the full Zoom Electron SDK documentation and the community support forum here:
+<div align="center">
+   <a target="_blank" href="https://marketplace.zoom.us/docs/sdk/hybrid-frameworks/electron" style="text-decoration:none">
+   <img src="https://s3-us-west-1.amazonaws.com/sdk.zoom.us/Doc-button.png" width="350px" max-height="350px" style="margin:1vh 1vw;"/>
+   </a>
+   <a target="_blank" href="https://devforum.zoom.us/c/desktop-sdk" style="text-decoration:none">
+   <img src="https://s3-us-west-1.amazonaws.com/sdk.zoom.us/Forum-button.png" width="350px" max-height="350px" style="margin:1vh 1vw;"/>
+   </a>
+</div>
 
 ## Disclaimer
 
@@ -31,31 +47,32 @@ Clone or download a copy of our SDK files from GitHub. After you unzipped the fi
 ├── CHANGELOG.md
 ├── LICENSE.md
 ├── README.md
-├── bin
-├── h
-├── lib
-├── [sdk_demo] <-- demo app is inside
-└── version.txt
+├── Zoom\ Win\ SDK\ Native\ Addon\ for\ Electron.docx
+├── Zoom\ Win\ SDK\ Native\ Addon\ for\ Electron.md
+└── zoom_electron
+    ├── [demo] <-- demo app is inside
+    ├── how\ to\ use.txt
+    └── lib
 ```
 Please refer to the following steps to install and compile:
 
 1. Download the latest SDK from: https://github.com/zoom/zoom-winsdk-electron
-2. Install python 2.7 and setuptools
- * Python 2.7.15: https://www.python.org/downloads/release/python-2715/
+2. Install python 2.7.* and setuptools
+ * **Python 2.7.15**: https://www.python.org/downloads/release/python-2715/
  * Install pip: https://pip.pypa.io/en/stable/installing/
     * *curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py*
     * *python get-pip.py*
  * Install setuptools (Normally it comes with python 2.7 installation, if not, please install it manually)
     * *pip install setuptools*
-3. Install Node.js v8.12.0(After installation, please restart your computer): https://nodejs.org/download/release/v8.12.0/node-v8.12.0-x86.msi
-4. Install Electron v2.0.7: *npm install -g --arch=ia32 --save-dev electron@2.0.7*
-5. Install Visual Studio 2015: 
+3. Install **Node.js v8.12.0**(After installation, please restart your computer): https://nodejs.org/download/release/v8.12.0/node-v8.12.0-x86.msi
+4. Install **Electron v2.0.7**: *npm install -g --arch=ia32 --save-dev electron@2.0.7*
+5. Install Visual Studio 2015:
   * web installer: https://go.microsoft.com/fwlink/?LinkId=532606&clcid=0x409
   * ISO: https://go.microsoft.com/fwlink/?LinkId=615448&clcid=0x409
 6. Download Zoom Windows SDK: https://github.com/zoom/zoom-sdk-windows
 7. Unzip and copy the files in **\zoom-sdk-windows-master\bin**, and paste them into **\zoom-sdk-electron\lib\windows\bin**
 8. Run “cmd” and navigate to “zoom-sdk-electron\demo”
-9. Run *“npm set npm_config_arch=ai32”*
+9. Run *“npm set npm_config_arch=ia32”*
 10. Run *“electron .”* to run the demo app. You should see the demo app pops up.
 
 
