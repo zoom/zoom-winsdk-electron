@@ -66,9 +66,8 @@ Please refer to the following steps to install and compile:
     * *pip install setuptools*
 3. Install **Node.js v8.12.0**(After installation, please restart your computer): https://nodejs.org/download/release/v8.12.0/node-v8.12.0-x86.msi
 4. Install **Electron v2.0.7**: *npm install -g --arch=ia32 --save-dev electron@2.0.7*
-5. Install Visual Studio 2015:
-  * web installer: https://go.microsoft.com/fwlink/?LinkId=532606&clcid=0x409
-  * ISO: https://go.microsoft.com/fwlink/?LinkId=615448&clcid=0x409
+5. Install Visual Studio:
+  * https://visualstudio.microsoft.com/
 6. Download Zoom Windows SDK: https://github.com/zoom/zoom-sdk-windows
 7. Unzip and copy the files in **\zoom-sdk-windows-master\bin**, and paste them into **\zoom-sdk-electron\lib\windows\bin**
 8. Run “cmd” and navigate to “zoom-sdk-electron\demo”
